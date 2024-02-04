@@ -1,0 +1,7 @@
+TodoApp/client/node_modules
+TodoApp/client/.env
+TodoApp/server/node_modules
+TodoApp/server/.env
+TodoApp/prisma-graphql-server/node_modules
+TodoApp/prisma-graphql-server/.env
+TodoApp/.vscode
