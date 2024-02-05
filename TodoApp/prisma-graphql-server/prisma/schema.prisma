@@ -25,3 +25,83 @@ model User {
   name  String
   posts Post[]
 }
+
+model Category {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String
+  Product     Product[]
+}
+
+model Customer {
+  id           Int     @id @default(autoincrement())
+  customerName String
+  contactName  String
+  address      String
+  city         String
+  postalCode   String
+  country      String
+  Order        Order[]
+}
+
+model Employee {
+  id        Int      @id @default(autoincrement())
+  lastName  String
+  firstName String
+  birthDate DateTime
+  photo     String
+  notes     String
+  Order     Order[]
+}
+
+model Supplier {
+  id          Int       @id @default(autoincrement())
+  name        String
+  contactName String
+  address     String
+  city        String
+  postalCode  String
+  country     String
+  phone       String
+  Product     Product[]
+}
+
+model Product {
+  id          Int           @id @default(autoincrement())
+  name        String
+  price       Decimal
+  description String
+  excerpt     String
+  categoryId  Int
+  category    Category      @relation(fields: [categoryId], references: [id])
+  supplierId  Int
+  supplier    Supplier      @relation(fields: [supplierId], references: [id])
+  unit        String
+  OrderDetail OrderDetail[]
+}
+
+model Shipper {
+  id          Int    @id @default(autoincrement())
+  shipperName String
+  phone       String
+}
+
+model Order {
+  id          Int           @id @default(autoincrement())
+  customerId  Int
+  customer    Customer      @relation(fields: [customerId], references: [id])
+  employeeId  Int
+  employee    Employee      @relation(fields: [employeeId], references: [id])
+  orderDate   DateTime
+  shipperId   Int
+  OrderDetail OrderDetail[]
+}
+
+model OrderDetail {
+  id        Int     @id @default(autoincrement())
+  orderId   Int
+  productId Int
+  product   Product @relation(fields: [productId], references: [id])
+  order     Order   @relation(fields: [orderId], references: [id])
+  quantity  Int
+}

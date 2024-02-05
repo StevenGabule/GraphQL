@@ -17,9 +17,88 @@ const typeDefs = gql`
     author: User
   }
 
+  type Category {
+    id: ID!
+    name: String!
+    description: String!
+  }
+
+  type Customer {
+    id: ID!
+    customerName: String!
+    contactName: String!
+    address: String!
+    city: String!
+    postalCode: String!
+    country: String!
+    order: [Order!]!
+  }
+
+  type Employee {
+    id: ID!
+    lastName: String!
+    firstName: String!
+    birthDate: DateTime!
+    photo: String!
+    notes: String!
+  }
+
+  type Supplier {
+    id: ID!
+    name: String!
+    contactName: String!
+    contactName: String!
+    address: String!
+    city: String!
+    postalCode: String!
+    country: String!
+    phone: String!
+  }
+  
+  type Product {
+    id: ID!
+    name: String!
+    price: Decimal!
+    description: String!
+    excerpt: String!
+    category: Category
+    supplier: Supplier
+    unit: String!
+  }
+
+  type Shipper {
+    id: ID!
+    shipperName: String!
+    phone: String!
+  }
+
+  type Order {
+    id: ID!
+    customer: [Customer!]!
+    employee: [Employee!]!
+    orderDate: DateTime!
+    shipper: Shipper!
+  }
+  
+  type OrderDetail {
+    id: ID!
+    order: Order
+    product: Product
+    quantity: Int
+  }
+
   type Query {
     feed: [Post!]!
     post(id: ID!): Post
+
+    categories: [Category!]!    
+    customers: [Customer!]!    
+    employees: [Employee!]!    
+    suppliers: [Supplier!]!    
+    products: [Product!]!    
+    shippers: [Shipper!]!    
+    orders: [Order!]!    
+    orderDetails: [OrderDetail!]!    
   }
 
   type Mutation {
@@ -55,6 +134,27 @@ const resolvers = {
       return prisma.post.findUnique({
         where: { id: Number(args.id) },
       });
+    },
+    categories: (parent,args) => {
+      return prisma.category.findMany()
+    },
+    customers: (parent,args) => {
+      return prisma.customer.findMany()
+    },
+    employees: (parent,args) => {
+      return prisma.employee.findMany()
+    },
+    suppliers: (parent,args) => {
+      return prisma.supplier.findMany()
+    },
+    products: (parent,args) => {
+      return prisma.product.findMany()
+    },
+    shippers: (parent,args) => {
+      return prisma.shipper.findMany()
+    },
+    orders: (parent,args) => {
+      return prisma.shipper.findMany()
     },
   },
   // defines the createDraft mutation for creating a draft Post and the publish
